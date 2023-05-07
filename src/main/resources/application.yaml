@@ -16,3 +16,10 @@ spring:
             - Path=/test/**
           filters:
             - StripPrefix=1
+        - id: test
+          uri: "https://httpbin.org"
+          predicates:
+            - Path=/add-header/**
+          filters:
+            - StripPrefix=1
+            - AddHeader
