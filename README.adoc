@@ -1,0 +1,5 @@
+= Demo project for "Beyond routing 🚀 Spring Cloud Gateway with style" talk
+:talk-url: https://2023.springio.net/sessions/beyond-routing-spring-cloud-gateway-with-style/
+
+This demo repository contains examples for Spring Cloud Gateway filters for the {talk-url}[Spring/IO 23 talk] by https://github.com/martamedio[@martamedio] and https://ithub.com/abelsromero[@abelsromero].
+
