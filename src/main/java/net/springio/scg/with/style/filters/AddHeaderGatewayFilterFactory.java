@@ -15,7 +15,7 @@ import java.util.List;
 @Component
 class AddHeaderGatewayFilterFactory extends AbstractGatewayFilterFactory<Object> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AddHeaderGatewayFilterFactory.class);
+    private static final Logger logger = LoggerFactory.getLogger(AddHeaderGatewayFilterFactory.class);
     private static final String MY_HEADER_KEY = "X-My-Header";
 
     @Override
@@ -26,7 +26,7 @@ class AddHeaderGatewayFilterFactory extends AbstractGatewayFilterFactory<Object>
 
                     headers.put(MY_HEADER_KEY, List.of("gen-" + LocalDateTime.now()));
 
-                    LOGGER.info("Processed request, added " + MY_HEADER_KEY + " header");
+                    logger.info("Processed request, added " + MY_HEADER_KEY + " header");
                 }))
                 .build();
             return chain.filter(updatedExchange)
