@@ -1,0 +1,5 @@
+sso:
+  scope: openid,email
+  issuer-uri: https://dev-99177640.okta.com/oauth2/aus1xm4b5bwy17Tss5d7
+  client-id: 0oa1xmm4p8TUojV555d7
+  client-secret: dSx72DIYaWIdXqu0fepyKp3TyALgC0ICUZ3BOiif
