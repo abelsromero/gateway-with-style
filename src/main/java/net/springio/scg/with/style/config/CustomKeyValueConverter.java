@@ -7,7 +7,7 @@ import org.springframework.util.StringUtils;
 @Component
 public class CustomKeyValueConverter implements Converter<String, KeyValue> {
 
-	private static final String INVALID_CONFIGURATION_MESSAGE = "Invalid configuration! Expected format is: 'key:value'";
+	private static final String INVALID_CONFIGURATION_MESSAGE = "Invalid configuration, expected format: 'key:value'";
 
 	@Override
 	public KeyValue convert(String source) throws IllegalArgumentException {
@@ -22,5 +22,7 @@ public class CustomKeyValueConverter implements Converter<String, KeyValue> {
 			throw new IllegalArgumentException(INVALID_CONFIGURATION_MESSAGE);
 		}
 	}
-
 }
+
+
+
