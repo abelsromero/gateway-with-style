@@ -7,6 +7,19 @@ management:
       exposure:
         include: "*"
 spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          sso:
+            issuer-uri: ${sso.issuer-uri}
+        registration:
+          sso:
+            provider: sso
+            client-id: ${sso.client-id}
+            client-secret: ${sso.client-secret}
+            scope: ${sso.scope}
+            authorization-grant-type: authorization_code
   cloud:
     gateway:
       routes:
@@ -16,10 +29,24 @@ spring:
             - Path=/test/**
           filters:
             - StripPrefix=1
-        - id: test
-          uri: "https://httpbin.org"
+        - id: local-test
+          uri: "http://localhost:8888"
           predicates:
-            - Path=/add-header/**
+            - Path=/test/**
           filters:
             - StripPrefix=1
-            - AddHeader
+        - id: authorized
+          uri: "http://localhost:8888"
+          predicates:
+            - Path=/token/**
+          filters:
+            - StripPrefix=1
+            - Authorize
+            - ExtractClaim=name,X-CLAIM-NAME
+        - id: no-token
+          uri: "http://localhost:8888"
+          predicates:
+            - Path=/no-token/**
+          filters:
+            - StripPrefix=1
+            - ExtractClaim=name,X-CLAIM-NAME

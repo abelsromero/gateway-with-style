@@ -5,12 +5,16 @@ This demo repository contains examples for Spring Cloud Gateway filters for the 
 
 == Testing the project
 
-To start using the repo, you'll need a valid OIDC provider, for example Okta.
-Then, create a local configuration to the _resoruces_ directory with the following information.
+To start using the repo, you'll need:
 
+. A valid OIDC provider, for example Okta.
+
+. Then, create a local configuration to the _resoruces_ directory with the following information.
++
 NOTE: This file is intended to contain secrets and is added in _.gitignore_.
-
++
 .application-local.yml
+[,yaml]
 ----
 sso:
   scope: openid,email
@@ -18,3 +22,7 @@ sso:
   client-id:
   client-secret:
 ----
+
+. Start https://httpbin.org[httpbin] locally to prevent network issues.
+
+ docker run -d -p 80:80 kennethreitz/httpbin
