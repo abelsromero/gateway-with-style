@@ -3,3 +3,18 @@
 
 This demo repository contains examples for Spring Cloud Gateway filters for the {talk-url}[Spring/IO 23 talk] by https://github.com/martamedio[@martamedio] and https://ithub.com/abelsromero[@abelsromero].
 
+== Testing the project
+
+To start using the repo, you'll need a valid OIDC provider, for example Okta.
+Then, create a local configuration to the _resoruces_ directory with the following information.
+
+NOTE: This file is intended to contain secrets and is added in _.gitignore_.
+
+.application-local.yml
+----
+sso:
+  scope: openid,email
+  issuer-uri:
+  client-id:
+  client-secret:
+----
