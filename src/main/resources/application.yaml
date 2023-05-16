@@ -13,10 +13,18 @@ spring:
         - id: test
           uri: "http://localhost:8585"
           predicates:
-            - Path=/test
-        - id: test
+            - Path=/test/**
+          filters:
+            - StripPrefix=1
+        - id: add-header
           uri: "http://localhost:8585"
           predicates:
             - Path=/add-header
           filters:
             - AddHeader
+        - id: json
+          uri: "http://localhost:8585"
+          predicates:
+            - Path=/json
+          filters:
+            - RewriteJsonResponseBody=slideshow.title:Spring IO 2023,slideshow.slides[0].title:Hello World!
