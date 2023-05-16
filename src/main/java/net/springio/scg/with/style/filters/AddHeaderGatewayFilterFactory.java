@@ -16,23 +16,24 @@ import java.util.List;
 class AddHeaderGatewayFilterFactory extends AbstractGatewayFilterFactory<Object> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AddHeaderGatewayFilterFactory.class);
-    private static final String MY_HEADER_KEY = "X-My-Header";
+    private static final String MY_HEADER_KEY = "X-SpringIO-Header";
+    private static final String ANOTHER_HEADER_KEY = "X-Another-Header";
 
     @Override
     public GatewayFilter apply(Object config) {
         return (exchange, chain) -> {
             ServerWebExchange updatedExchange = exchange.mutate()
                 .request(request -> request.headers(headers -> {
-
                     headers.put(MY_HEADER_KEY, List.of("gen-" + LocalDateTime.now()));
-
                     LOGGER.info("Processed request, added " + MY_HEADER_KEY + " header");
                 }))
                 .build();
+
             return chain.filter(updatedExchange)
                 .then(Mono.fromRunnable(() -> {
                         HttpHeaders headers = exchange.getResponse().getHeaders();
-                        headers.add("Another", "a-Value");
+                        headers.add(ANOTHER_HEADER_KEY, "a-Value");
+                        LOGGER.info("Processed response, added " + ANOTHER_HEADER_KEY + " header");
                     }
                 ));
         };

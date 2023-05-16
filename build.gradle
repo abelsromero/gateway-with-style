@@ -24,6 +24,9 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-actuator'
   implementation 'org.springframework.boot:spring-boot-starter-security'
 
+  // RewriteJsonAttributesResponseBody
+  implementation 'com.jayway.jsonpath:json-path:2.8.0'
+
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation 'org.springframework.security:spring-security-test'
 }
