@@ -3,7 +3,26 @@
 
 This demo repository contains examples for Spring Cloud Gateway filters for the {talk-url}[Spring/IO 23 talk] by https://github.com/martamedio[@martamedio] and https://ithub.com/abelsromero[@abelsromero].
 
-We execute locally an image of `httpbin.org` for executing the route examples:
-```
-docker run -p 8585:80 kennethreitz/httpbin
-```
+== Testing the project
+
+To start using the repo, you'll need:
+
+. A valid OIDC provider, for example Okta.
+
+. Then, create a local configuration to the _resoruces_ directory with the following information.
++
+NOTE: This file is intended to contain secrets and is added in _.gitignore_.
++
+.application-local.yml
+[,yaml]
+----
+sso:
+  scope: openid,email
+  issuer-uri:
+  client-id:
+  client-secret:
+----
+
+. Start https://httpbin.org[httpbin] locally to prevent network issues.
+
+ docker run -d -p 8585:80 kennethreitz/httpbin
