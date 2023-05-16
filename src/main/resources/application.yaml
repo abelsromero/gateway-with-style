@@ -11,15 +11,12 @@ spring:
     gateway:
       routes:
         - id: test
-          uri: "https://httpbin.org"
+          uri: "http://localhost:8585"
           predicates:
-            - Path=/test/**
-          filters:
-            - StripPrefix=1
+            - Path=/test
         - id: test
-          uri: "https://httpbin.org"
+          uri: "http://localhost:8585"
           predicates:
-            - Path=/add-header/**
+            - Path=/add-header
           filters:
-            - StripPrefix=1
             - AddHeader

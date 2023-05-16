@@ -3,3 +3,7 @@
 
 This demo repository contains examples for Spring Cloud Gateway filters for the {talk-url}[Spring/IO 23 talk] by https://github.com/martamedio[@martamedio] and https://ithub.com/abelsromero[@abelsromero].
 
+We execute locally an image of `httpbin.org` for executing the route examples:
+```
+docker run -p 8585:80 kennethreitz/httpbin
+```
