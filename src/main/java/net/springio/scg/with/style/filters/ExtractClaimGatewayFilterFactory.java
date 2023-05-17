@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.GatewayFilterFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -24,6 +25,8 @@ import static net.springio.scg.with.style.filters.Headers.buildHeaderValue;
 public class ExtractClaimGatewayFilterFactory
     implements GatewayFilterFactory<ExtractClaimGatewayFilterFactory.Config> {
 
+    private static final String AUTH_TYPE_HEADER = "X-Authorization";
+
     @Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> ReactiveSecurityContextHolder
@@ -31,6 +34,12 @@ public class ExtractClaimGatewayFilterFactory
             .map(context -> {
                 ServerWebExchange mutatedExchange = addClaim(config, exchange,
                     context.getAuthentication());
+
+                mutatedExchange.getRequest()
+                    .mutate()
+                    .headers(httpHeaders -> {
+                        httpHeaders.remove(HttpHeaders.AUTHORIZATION);
+                    });
                 return mutatedExchange != null ? mutatedExchange : exchange;
             })
             .switchIfEmpty(Mono.fromSupplier(() -> markAsUnauthenticated(exchange)))
@@ -46,7 +55,10 @@ public class ExtractClaimGatewayFilterFactory
     private ServerWebExchange markAsUnauthenticated(ServerWebExchange exchange) {
         logger.warn("No Session found!");
         return exchange.mutate()
-            .request(req -> req.header("X-Authentication", "anonymous"))
+            .request(req -> req.headers(httpHeaders -> {
+                httpHeaders.add(AUTH_TYPE_HEADER, "anonymous");
+                httpHeaders.remove(HttpHeaders.AUTHORIZATION);
+            }))
             .build();
     }
 
@@ -82,6 +94,7 @@ public class ExtractClaimGatewayFilterFactory
                         headers.put(
                             config.headerName,
                             buildHeaderValue(addValueToList(previousValues, value)));
+                        headers.put(AUTH_TYPE_HEADER, List.of("JWT Token"));
                     }
                 }))
             .build();

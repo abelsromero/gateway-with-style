@@ -24,7 +24,7 @@ spring:
     gateway:
       routes:
         - id: test
-          uri: "http://localhost:8888"
+          uri: "http://localhost:8585"
           predicates:
             - Path=/test/**
           filters:
@@ -42,7 +42,7 @@ spring:
           filters:
             - RewriteJsonResponseBody=slideshow.title:Spring IO 2023,slideshow.slides[0].title:Hello World!
         - id: authorized
-          uri: "http://localhost:8888"
+          uri: "http://localhost:8585"
           predicates:
             - Path=/token/**
           filters:
@@ -50,7 +50,7 @@ spring:
             - Authorize
             - ExtractClaim=name,X-CLAIM-NAME
         - id: no-token
-          uri: "http://localhost:8888"
+          uri: "http://localhost:8585"
           predicates:
             - Path=/no-token/**
           filters:
