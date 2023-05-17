@@ -32,7 +32,7 @@ spring:
         - id: add-header
           uri: "http://localhost:8585"
           predicates:
-            - Path=/add-header
+            - Path=/headers
           filters:
             - AddHeader
         - id: json
