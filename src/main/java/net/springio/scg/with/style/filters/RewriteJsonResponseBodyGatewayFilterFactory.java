@@ -30,26 +30,6 @@ import java.util.List;
 @Component
 public class RewriteJsonResponseBodyGatewayFilterFactory extends AbstractGatewayFilterFactory<KeyValueConfig> {
 
-    @Override
-    public ShortcutType shortcutType() {
-        return ShortcutType.GATHER_LIST;
-    }
-
-    @Override
-    public List<String> shortcutFieldOrder() {
-        return Collections.singletonList("keyValues");
-    }
-
-    @Override
-    public KeyValueConfig newConfig() {
-        return new KeyValueConfig();
-    }
-
-    @Override
-    public Class<KeyValueConfig> getConfigClass() {
-        return KeyValueConfig.class;
-    }
-
     private static final Logger LOGGER = LoggerFactory.getLogger(RewriteJsonResponseBodyGatewayFilterFactory.class);
 
     private final ModifyResponseBodyGatewayFilterFactory modifyResponseBodyGatewayFilterFactory;
@@ -83,6 +63,26 @@ public class RewriteJsonResponseBodyGatewayFilterFactory extends AbstractGateway
         modifyResponseBodyConfig.setRewriteFunction(rewriteFunction);
 
         return modifyResponseBodyGatewayFilterFactory.apply(modifyResponseBodyConfig);
+    }
+
+    @Override
+    public ShortcutType shortcutType() {
+        return ShortcutType.GATHER_LIST;
+    }
+
+    @Override
+    public List<String> shortcutFieldOrder() {
+        return Collections.singletonList("keyValues");
+    }
+
+    @Override
+    public KeyValueConfig newConfig() {
+        return new KeyValueConfig();
+    }
+
+    @Override
+    public Class<KeyValueConfig> getConfigClass() {
+        return KeyValueConfig.class;
     }
 
 }

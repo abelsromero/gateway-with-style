@@ -23,36 +23,30 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: test
-          uri: "http://localhost:8585"
-          predicates:
-            - Path=/test/**
-          filters:
-            - StripPrefix=1
         - id: add-header
           uri: "http://localhost:8585"
           predicates:
             - Path=/headers
           filters:
             - AddHeader
+        - id: authorized
+          uri: "http://localhost:8585"
+          predicates:
+            - Path=/authorized/**
+          filters:
+            - StripPrefix=1
+            - Authorize
+            - ExtractClaim=name,X-CLAIM-NAME
+        - id: no-authorized
+          uri: "http://localhost:8585"
+          predicates:
+            - Path=/not-authorized/**
+          filters:
+            - StripPrefix=1
+            - ExtractClaim=name,X-CLAIM-NAME
         - id: json
           uri: "http://localhost:8585"
           predicates:
             - Path=/json
           filters:
-            - RewriteJsonResponseBody=slideshow.title:Spring IO 2023,slideshow.slides[0].title:Hello World!
-        - id: authorized
-          uri: "http://localhost:8585"
-          predicates:
-            - Path=/token/**
-          filters:
-            - StripPrefix=1
-            - Authorize
-            - ExtractClaim=name,X-CLAIM-NAME
-        - id: no-token
-          uri: "http://localhost:8585"
-          predicates:
-            - Path=/no-token/**
-          filters:
-            - StripPrefix=1
-            - ExtractClaim=name,X-CLAIM-NAME
+            - RewriteJsonResponseBody=slideshow.author:Marta,slideshow.slides[0].title:Spring/IO 2023!
